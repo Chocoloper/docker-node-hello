@@ -1,17 +1,25 @@
-FROM ubuntu:trusty
+FROM ubuntu:14.04
+MAINTAINER Gordon Lawrenz <lawrenz@dbis.rwth-aachen.de>
+ENV DEBIAN_FRONTEND noninteractive
 
 # Update & Intall Node.js, Npm 
-RUN sudo apt-get update \
-	&& sudo apt-get install -y \
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& apt-get install -y \
 	npm \
 	nodejs
-	&& sudo npm install -g npm
+	&& npm install -g npm
 
 # Copy App
-COPY ./src /src
+ADD ./src/hello.js /opt/hello.js
+ADD ./src/package.json  /opt/package.json 
+
 # Install dependencies
-RUN cd /src; npm install
+WORKDIR /opt
+RUN npm install
 
 # Open Port 8080
 EXPOSE 8080
-CMD ["node","/src/hello.js"]
+
+# default task
+CMD ["nodejs","/opt/hello.js"]
