@@ -1,4 +1,4 @@
 # docker-node-hello
 
 
-this is a small description - test
+this is just a showcase
